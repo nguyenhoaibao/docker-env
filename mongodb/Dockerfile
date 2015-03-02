@@ -13,7 +13,6 @@ RUN yum install mongodb-org -y
 # Copy config mongodb
 ADD ./mongod.conf /etc/mongod.conf
 
-
 RUN mkdir /data
 RUN mkdir /logs
 
@@ -21,7 +20,6 @@ RUN chown -R mongod:mongod /data
 RUN chown -R mongod:mongod /logs
 
 USER mongod
-
 
 VOLUME [ "/data" ]
 VOLUME [ "/logs" ]
