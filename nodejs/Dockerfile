@@ -3,7 +3,7 @@ FROM centos:6.6
 MAINTAINER baonh <nhbao.la@gmail.com>
 
 RUN yum update -y
-RUN yum install tar curl openssh-clients -y
+RUN yum install tar curl openssh-clients telnet -y
 
 COPY ./nvm_install.sh /root/
 
