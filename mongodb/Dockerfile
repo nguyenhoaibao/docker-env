@@ -3,7 +3,8 @@ FROM centos:6.6
 MAINTAINER baonh <nhbao.la@gmail.com>
 
 RUN yum update -y
-RUN yum install curl supervisor openssh-server -y
+RUN yum install curl openssh-server python-setuptools -y
+RUN easy_install supervisor
 
 # Copy mongodb repo
 COPY ./mongodb.repo /etc/yum.repos.d/mongodb.repo
