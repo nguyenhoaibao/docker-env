@@ -27,6 +27,5 @@ VOLUME [ "/logs" ]
 
 EXPOSE 27017
 
-ENTRYPOINT ["/usr/bin/mongod"]
-CMD ["-f", "/etc/mongod.conf"]
+CMD ["/usr/bin/mongod", "-f", "/etc/mongodb.conf"]
 
