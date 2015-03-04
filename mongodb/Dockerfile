@@ -16,12 +16,7 @@ RUN yum install mongodb-org -y
 # Copy config supervisor
 COPY ./supervisord.conf /etc/
 
-RUN mkdir -p /data /var/log/mongodb /var/log/supervisor /var/run/sshd && \
-  chown -R mongod:mongod /data && \
-  chown -R mongod:mongod /var/log/mongodb && \
-  chown -R mongod:mongod /var/log/supervisor
-
-USER mongod
+RUN mkdir -p /data /var/log/mongodb /var/log/supervisor /var/run/sshd
 
 VOLUME [ "/data" ]
 VOLUME [ "/var/log" ]
