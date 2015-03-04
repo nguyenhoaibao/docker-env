@@ -6,12 +6,12 @@ RUN yum update -y
 RUN yum install curl -y
 
 # Copy mongodb repo
-ADD ./mongodb.repo /etc/yum.repos.d/mongodb.repo
+COPY ./mongodb.repo /etc/yum.repos.d/mongodb.repo
 
 RUN yum install mongodb-org -y
 
 # Copy config mongodb
-ADD ./mongod.conf /etc/mongod.conf
+COPY ./mongod.conf /etc/mongod.conf
 
 RUN mkdir /data
 RUN mkdir /logs
