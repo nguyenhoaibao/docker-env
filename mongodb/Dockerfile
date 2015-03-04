@@ -4,7 +4,12 @@ MAINTAINER baonh <nhbao.la@gmail.com>
 
 RUN yum update -y
 RUN yum install curl openssh-server python-setuptools -y
+
+# Install supervisor
 RUN easy_install supervisor
+
+RUN ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key
+RUN ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key
 
 # Copy mongodb repo
 COPY ./mongodb.repo /etc/yum.repos.d/mongodb.repo
