@@ -3,29 +3,28 @@ FROM centos:6.6
 MAINTAINER baonh <nhbao.la@gmail.com>
 
 RUN yum update -y
-RUN yum install curl -y
+RUN yum install curl supervisor openssh-server -y
 
 # Copy mongodb repo
 COPY ./mongodb.repo /etc/yum.repos.d/mongodb.repo
-
-RUN yum install mongodb-org -y
-
 # Copy config mongodb
 COPY ./mongod.conf /etc/mongod.conf
+# Install mongodb
+RUN yum install mongodb-org -y
 
-RUN mkdir /data
-RUN mkdir /logs
+# Copy config supervisor
+COPY ./supervisord.conf /etc/
 
-RUN chown -R mongod:mongod /data
-RUN chown -R mongod:mongod /logs
+RUN mkdir -p /data /var/log/mongodb /var/log/supervisor /var/run/sshd && \
+  chown -R mongod:mongod /data && \
+  chown -R mongod:mongod /var/log/mongodb && \
+  chown -R mongod:mongod /var/log/supervisor
 
 USER mongod
 
 VOLUME [ "/data" ]
-VOLUME [ "/logs" ]
+VOLUME [ "/var/log" ]
 
+EXPOSE 27017 22
 
-EXPOSE 27017
-
-CMD ["/usr/bin/mongod", "-f", "/etc/mongod.conf"]
-
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
