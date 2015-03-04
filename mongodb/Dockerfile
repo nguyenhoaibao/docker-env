@@ -28,4 +28,4 @@ VOLUME [ "/var/log" ]
 
 EXPOSE 27017 22
 
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf", "-n"]
