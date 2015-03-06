@@ -378,3 +378,5 @@ path.plugins: /usr/share/elasticsearch/plugins
 # it unless you need it is recommended (it is disabled by default).
 #
 #http.jsonp.enable: true
+http.cors.allow-origin: "/.*/"
+http.cors.enabled: true
