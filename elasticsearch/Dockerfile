@@ -3,7 +3,7 @@ FROM centos:6.6
 MAINTAINER baonh <nhbao.la@gmail.com>
 
 RUN yum update -y
-RUN yum install curl wget tar java-1.7.0-openjdk openssh-server python-setuptools -y
+RUN yum install curl wget tar java-1.7.0-openjdk openssh-server python-setuptools which gcc make -y
 
 # Install supervisor
 RUN easy_install supervisor
