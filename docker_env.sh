@@ -35,13 +35,13 @@ start(){
 	echo "Started MONGO in container $MONGO"
 	
 	NODEJS=$(docker run \
-		-d \
 		-p 1337:1337 \
 		-p 1338:1338 \
 		-v $APPS:/srv/www/ \
-		--name docker-nodejs \
+		--name docker.nodejs \
 		--link docker.es.server:docker.es.server \
 		--link docker.mongodb.server:docker.mongodb.server \
+		-d \
 		baonh/centos-nodejs:v1)
 	echo "Started NODEJS in container $NODEJS"
 
