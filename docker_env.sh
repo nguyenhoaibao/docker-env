@@ -33,20 +33,21 @@ start(){
 		-d \
 		baonh/centos-mongodb:v1)
 	echo "Started MONGO in container $MONGO"
-	
-	NODEJS=$(docker run \
+
+	sleep 1
+
+}
+
+start-web(){
+	docker run \
 		-p 1337:1337 \
 		-p 1338:1338 \
 		-v $APPS:/srv/www/ \
 		--name docker.nodejs \
 		--link docker.es.server:docker.es.server \
 		--link docker.mongodb.server:docker.mongodb.server \
-		-d \
-		baonh/centos-nodejs:v1)
-	echo "Started NODEJS in container $NODEJS"
-
-	sleep 1
-
+		-ti \
+		baonh/centos-nodejs:v1
 }
 
 update(){
@@ -64,6 +65,9 @@ case "$1" in
 		;;
 	start)
 		start
+		;;
+	start-web)
+		start-web
 		;;
 	stop)
 		stop
