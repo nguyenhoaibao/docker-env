@@ -33,7 +33,7 @@ RUN tar -xf kibana.tar.gz
 RUN mv kibana-* kibana
 RUN mkdir -p /srv/www && \
   mv kibana /srv/www
-ADD ./kibana.yml /srv/www/kibana/config
+COPY ./kibana.yml /srv/www/kibana/config/
 
 # Config to ssh to this container
 # See http://www.itbakery.net/docker-on-centos-7/
