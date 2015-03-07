@@ -22,14 +22,14 @@ start(){
 	ELASTICSEARCH=$(docker run \
 		-p 9200:9200 \
 		-p 5601:5601
-		--name docker.es.server
+		--name docker-es
 		-d \
 		baonh/centos-elasticsearch:v1)
 	echo "Started ELASTICSEARCH in container $ELASTICSEARCH"
 
 	MONGO=$(docker run \
 		-p 27017:27017 \
-		--name docker.mongodb.server
+		--name docker-mongodb
 		-d \
 		baonh/centos-mongodb:v1)
 	echo "Started MONGO in container $MONGO"
@@ -38,7 +38,7 @@ start(){
 		-p 1337:1337 \
 		-p 1338:1338 \
 		-v $APPS:/srv/www/
-		--name docker.nodejs
+		--name docker-nodejs
 		--link docker.es.server:docker.es.server
 		--link docker.mongodb.server:docker.mongodb.server
 		-d \
