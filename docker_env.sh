@@ -2,7 +2,7 @@
 set -e
 
 DIR="$( cd "$( dirname "$0" )" && pwd )"
-APPS=${APPS:/c/Users/nhbao/Projects/}
+APPS=${APPS:-/c/Users/nhbao/Projects/}
 
 killz(){
 	echo "Killing all docker containers:"
