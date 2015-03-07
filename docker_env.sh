@@ -38,7 +38,7 @@ start(){
 
 }
 
-start-web(){
+start\-web(){
 	docker run \
 		-p 1337:1337 \
 		-p 1338:1338 \
@@ -66,8 +66,8 @@ case "$1" in
 	start)
 		start
 		;;
-	start-web)
-		start-web
+	start\-web)
+		start\-web
 		;;
 	stop)
 		stop
