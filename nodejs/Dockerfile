@@ -11,4 +11,5 @@ RUN chmod a+x /root/nvm_install.sh && \
   /bin/bash /root/nvm_install.sh && \
   source /root/.bashrc && \
   nvm install stable && \
-  nvm alias default stable
+  nvm alias default stable && \
+  mkdir -p /srv/www
