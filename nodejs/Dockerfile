@@ -13,3 +13,5 @@ RUN chmod a+x /root/nvm_install.sh && \
   nvm install stable && \
   nvm alias default stable && \
   mkdir -p /srv/www
+
+CMD ["/bin/ls", "-l", "/srv/www/"]
