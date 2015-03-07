@@ -2,22 +2,20 @@
 set -e
 
 DIR="$( cd "$( dirname "$0" )" && pwd )"
-APPS=${APPS:/c/Users/nhbao/Projects/boomerang}
+APPS=${APPS:/c/Users/nhbao/Projects/}
 
 killz(){
 	echo "Killing all docker containers:"
-	docker ps
-	ids=`docker ps | tail -n +2 |cut -d ' ' -f 1`
-	echo $ids | xargs docker kill
-	echo $ids | xargs docker rm
+	docker ps -aq
+	docker kill $(docker ps --no-trunc -aq)
+	docker rm $(docker ps --no-trunc -aq)
 }
 
 stop(){
 	echo "Stopping all docker containers:"
-	docker ps
-	ids=`docker ps | tail -n +2 |cut -d ' ' -f 1`
-	echo $ids | xargs docker stop
-	echo $ids | xargs docker rm
+	docker ps -aq
+	docker stop $(docker ps --no-trunc -aq)
+	docker rm $(docker ps --no-trunc -aq)
 }
 
 start(){
@@ -39,7 +37,7 @@ start(){
 	NODEJS=$(docker run \
 		-p 1337:1337 \
 		-p 1338:1338 \
-		-v $APPS:/srv/www/boomerang
+		-v $APPS:/srv/www/
 		--name docker.nodejs
 		--link docker.es.server:docker.es.server
 		--link docker.mongodb.server:docker.mongodb.server
