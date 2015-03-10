@@ -14,7 +14,8 @@ RUN chmod a+x /root/nvm_install.sh && \
   nvm alias default 0.10 && \
   npm install -g nodemon && \
   npm install -g jshint && \
-  npm install -g forever
+  npm install -g forever && \
+  npm install -g pm2
   mkdir -p /srv/www
 
 CMD ["/bin/ls", "-l", "/srv/www/"]
