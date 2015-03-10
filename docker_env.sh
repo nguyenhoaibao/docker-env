@@ -47,7 +47,8 @@ startWeb(){
 		--link docker.es.server:docker.es.server \
 		--link docker.mongodb.server:docker.mongodb.server \
 		-ti \
-		baonh/centos-nodejs:v1
+		baonh/centos-nodejs:v1 \
+		/bin/bash
 }
 
 update(){
