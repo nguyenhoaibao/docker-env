@@ -12,6 +12,7 @@ RUN chmod a+x /root/nvm_install.sh && \
   source /root/.bashrc && \
   nvm install stable && \
   nvm alias default stable && \
+  nvm install 0.10 && \
   npm install -g nodemon && \
   npm install -g jshint && \
   mkdir -p /srv/www
