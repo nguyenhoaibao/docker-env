@@ -6,19 +6,17 @@ APPS=${APPS:-/c/Users/nhbao/Projects/}
 
 killz(){
 	echo "Killing all docker containers:"
-	docker ps -aq
 	docker kill $(docker ps --no-trunc -aq)
 	docker rm $(docker ps --no-trunc -aq)
 }
 
 stop(){
 	echo "Stopping all docker containers:"
-	docker ps -aq
 	docker stop $(docker ps --no-trunc -aq)
 	docker rm $(docker ps --no-trunc -aq)
 }
 
-start(){
+startServices(){
 	ELASTICSEARCH=$(docker run \
 		-p 9200:9200 \
 		-p 5601:5601 \
@@ -38,7 +36,7 @@ start(){
 
 }
 
-startWeb(){
+startApp(){
 	docker run \
 		-p 1337:1337 \
 		-p 1338:1338 \
@@ -49,6 +47,10 @@ startWeb(){
 		-ti \
 		baonh/centos-nodejs:v1 \
 		/bin/bash
+}
+
+enter(){
+	docker exec -ti docker.nodejs /bin/bash
 }
 
 update(){
@@ -64,14 +66,17 @@ case "$1" in
 		killz
 		start
 		;;
-	start)
+	startServices)
 		start
 		;;
-	startWeb)
+	startApp)
 		startWeb
 		;;
 	stop)
 		stop
+		;;
+	enter)
+		enter
 		;;
 	kill)
 		killz
