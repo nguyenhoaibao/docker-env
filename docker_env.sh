@@ -16,7 +16,7 @@ stop(){
 	docker rm $(docker ps --no-trunc -aq)
 }
 
-startServices(){
+start(){
 	ELASTICSEARCH=$(docker run \
 		-p 9200:9200 \
 		-p 5601:5601 \
@@ -31,12 +31,8 @@ startServices(){
 		-d \
 		baonh/centos-mongodb:v1)
 	echo "Started MONGO in container $MONGO"
-
-	sleep 1
-
-}
-
-startApp(){
+	
+	echo "Start app"
 	docker run \
 		-p 1337:1337 \
 		-p 1338:1338 \
@@ -47,6 +43,7 @@ startApp(){
 		-ti \
 		baonh/centos-nodejs:v1 \
 		/bin/bash
+
 }
 
 enter(){
@@ -66,11 +63,8 @@ case "$1" in
 		killz
 		start
 		;;
-	startServices)
+	start)
 		start
-		;;
-	startApp)
-		startWeb
 		;;
 	stop)
 		stop
@@ -88,6 +82,6 @@ case "$1" in
 		docker ps
 		;;
 	*)
-		echo $"Usage: $0 {start|stop|kill|update|restart|status}"
+		echo $"Usage: $0 {start|enter|stop|kill|update|restart|status}"
 		RETVAL=1
 esac
