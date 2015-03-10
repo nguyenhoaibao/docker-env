@@ -10,11 +10,11 @@ COPY ./nvm_install.sh /root/
 RUN chmod a+x /root/nvm_install.sh && \
   /bin/bash /root/nvm_install.sh && \
   source /root/.bashrc && \
-  nvm install stable && \
-  nvm alias default stable && \
   nvm install 0.10 && \
+  nvm alias default 0.10 && \
   npm install -g nodemon && \
   npm install -g jshint && \
+  npm install -g forever
   mkdir -p /srv/www
 
 CMD ["/bin/ls", "-l", "/srv/www/"]
