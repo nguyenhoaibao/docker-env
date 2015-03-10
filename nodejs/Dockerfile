@@ -15,7 +15,7 @@ RUN chmod a+x /root/nvm_install.sh && \
   npm install -g nodemon && \
   npm install -g jshint && \
   npm install -g forever && \
-  npm install -g pm2
+  npm install -g pm2 && \
   mkdir -p /srv/www
 
 CMD ["/bin/ls", "-l", "/srv/www/"]
