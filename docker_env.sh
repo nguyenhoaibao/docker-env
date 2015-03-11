@@ -13,10 +13,9 @@ killz(){
 stop(){
 	echo "Stopping all docker containers:"
 	docker stop $(docker ps --no-trunc -aq)
-	docker rm $(docker ps --no-trunc -aq)
 }
 
-start(){
+init(){
 	ELASTICSEARCH=$(docker run \
 		-p 9200:9200 \
 		-p 5601:5601 \
@@ -50,6 +49,13 @@ start(){
 
 }
 
+start(){
+	docker start docker.es.server
+	docker start docker.mongodb.server
+	docker start docker.nodejs
+	docker exec -ti docker.nodejs /bin/bash
+}
+
 enter(){
 	docker exec -ti docker.nodejs /bin/bash
 }
@@ -64,8 +70,11 @@ update(){
 
 case "$1" in
 	restart)
-		killz
+		stop
 		start
+		;;
+	init)
+		init
 		;;
 	start)
 		start
@@ -75,9 +84,6 @@ case "$1" in
 		;;
 	enter)
 		enter
-		;;
-	kill)
-		killz
 		;;
 	update)
 		update
