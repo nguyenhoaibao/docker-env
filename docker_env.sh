@@ -15,38 +15,33 @@ stop(){
 	docker stop $(docker ps --no-trunc -aq)
 }
 
-init(){
-	ELASTICSEARCH=$(docker run \
+create(){
+	ELASTICSEARCH=$(docker create \
 		-p 9200:9200 \
 		-p 5601:5601 \
-		-v $APPS/docker_persistent/elasticsearch/data:/data \
-		-v $APPS/docker_persistent/elasticsearch/logs:/var/log/elasticsearch \
+		-v /data \
+		-v /var/log/elasticsearch \
 		--name docker.es.server \
-		-d \
 		baonh/centos-elasticsearch:v1)
-	echo "Started ELASTICSEARCH in container $ELASTICSEARCH"
+	echo "Created ELASTICSEARCH in container $ELASTICSEARCH"
 
-	MONGO=$(docker run \
+	MONGO=$(docker create \
 		-p 27017:27017 \
-		-v $APPS/docker_persistent/mongodb/data:/data \
-		-v $APPS/docker_persistent/mongodb/logs:/var/log/mongodb \
+		-v /data \
+		-v /var/log/mongodb \
 		--name docker.mongodb.server \
-		-d \
 		baonh/centos-mongodb:v1)
-	echo "Started MONGO in container $MONGO"
+	echo "Created MONGO in container $MONGO"
 	
-	echo "Start app"
-	docker run \
+	NODEJS=$(docker create \
 		-p 1337:1337 \
 		-p 1338:1338 \
-		-v $APPS:/srv/www/ \
+		-v /srv/www/ \
 		--name docker.nodejs \
 		--link docker.es.server:docker.es.server \
 		--link docker.mongodb.server:docker.mongodb.server \
-		-ti \
-		baonh/centos-nodejs:v1 \
-		/bin/bash
-
+		baonh/centos-nodejs:v1)
+	echo "Created NODEJS in container $NODEJS"
 }
 
 start(){
@@ -73,8 +68,8 @@ case "$1" in
 		stop
 		start
 		;;
-	init)
-		init
+	create)
+		create
 		;;
 	start)
 		start
