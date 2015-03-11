@@ -30,7 +30,7 @@ RUN mkdir -p /data /var/log/mongodb /var/log/supervisor /var/run/sshd /var/run/m
 RUN echo 'root:123456' | chpasswd
 
 VOLUME [ "/data" ]
-VOLUME [ "/var/log" ]
+VOLUME [ "/var/log/mongodb" ]
 
 EXPOSE 27017 22
 
