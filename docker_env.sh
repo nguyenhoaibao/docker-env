@@ -87,6 +87,6 @@ case "$1" in
 		docker ps
 		;;
 	*)
-		echo $"Usage: $0 {start|enter|stop|kill|update|restart|status}"
+		echo $"Usage: $0 {create|start|enter|stop|kill|update|restart|status}"
 		RETVAL=1
 esac
