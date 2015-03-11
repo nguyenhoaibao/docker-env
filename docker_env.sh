@@ -21,7 +21,7 @@ start(){
 		-p 9200:9200 \
 		-p 5601:5601 \
 		-v $APPS/docker_persistent/elasticsearch/data:/data \
-		-v $APPS/docker_persistent/elasticsearch/logs:/var/log \
+		-v $APPS/docker_persistent/elasticsearch/logs:/var/log/elasticsearch \
 		--name docker.es.server \
 		-d \
 		baonh/centos-elasticsearch:v1)
@@ -30,7 +30,7 @@ start(){
 	MONGO=$(docker run \
 		-p 27017:27017 \
 		-v $APPS/docker_persistent/mongodb/data:/data \
-		-v $APPS/docker_persistent/mongodb/logs:/var/log \
+		-v $APPS/docker_persistent/mongodb/logs:/var/log/mongodb \
 		--name docker.mongodb.server \
 		-d \
 		baonh/centos-mongodb:v1)
