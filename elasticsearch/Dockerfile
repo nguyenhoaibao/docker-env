@@ -48,7 +48,7 @@ RUN mkdir -p /data /var/log/supervisor /var/run/sshd /var/log/elasticsearch /var
 RUN echo 'root:123456' | chpasswd
 
 VOLUME [ "/data" ]
-VOLUME [ "/var/log" ]
+VOLUME [ "/var/log/elasticsearch" ]
 
 EXPOSE 9200 5601 22
 
