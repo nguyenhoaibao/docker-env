@@ -22,7 +22,7 @@ create(){
 		-v /data \
 		-v /var/log/elasticsearch \
 		--name docker.es.server \
-		baonh/centos-elasticsearch:v1)
+		baonh/centos-elasticsearch)
 	echo "Created ELASTICSEARCH in container $ELASTICSEARCH"
 
 	MONGO=$(docker create \
@@ -30,7 +30,7 @@ create(){
 		-v /data \
 		-v /var/log/mongodb \
 		--name docker.mongodb.server \
-		baonh/centos-mongodb:v1)
+		baonh/centos-mongodb)
 	echo "Created MONGO in container $MONGO"
 	
 	NODEJS=$(docker create \
@@ -41,7 +41,7 @@ create(){
 		--link docker.es.server:docker.es.server \
 		--link docker.mongodb.server:docker.mongodb.server \
 		-ti \
-		baonh/centos-nodejs:v1 \
+		baonh/centos-nodejs \
 		/bin/bash)
 	echo "Created NODEJS in container $NODEJS"
 }
@@ -76,9 +76,6 @@ case "$1" in
 		stop
 		start
 		;;
-
-
-
 	start)
 		start
 		;;
