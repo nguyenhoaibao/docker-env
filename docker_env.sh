@@ -40,11 +40,19 @@ create(){
 		--name docker.nodejs \
 		--link docker.es.server:docker.es.server \
 		--link docker.mongodb.server:docker.mongodb.server \
-		baonh/centos-nodejs:v1)
+		-ti \
+		baonh/centos-nodejs:v1 \
+		/bin/bash)
 	echo "Created NODEJS in container $NODEJS"
 }
 
 start(){
+	docker_running=`docker ps -aq | wc -l`
+	if [ "$docker_running" -eq 0 ];then
+
+		create
+	fi
+
 	docker start docker.es.server
 	docker start docker.mongodb.server
 	docker start docker.nodejs
@@ -68,9 +76,9 @@ case "$1" in
 		stop
 		start
 		;;
-	create)
-		create
-		;;
+
+
+
 	start)
 		start
 		;;
@@ -87,6 +95,6 @@ case "$1" in
 		docker ps
 		;;
 	*)
-		echo $"Usage: $0 {create|start|enter|stop|kill|update|restart|status}"
+		echo $"Usage: $0 {start|enter|stop|update|restart|status}"
 		RETVAL=1
 esac
