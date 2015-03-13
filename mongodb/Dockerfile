@@ -7,6 +7,8 @@ RUN yum install curl openssh-server python-setuptools -y
 
 # Install supervisor
 RUN easy_install supervisor
+# Copy config supervisor
+COPY ./supervisord.conf /etc/
 
 # See http://www.itbakery.net/docker-on-centos-7/
 RUN ssh-keygen -q -N "" -t dsa -f /etc/ssh/ssh_host_dsa_key
@@ -18,11 +20,12 @@ RUN sed -i "s/UsePAM.*/UsePAM no/g" /etc/ssh/sshd_config
 COPY ./mongodb.repo /etc/yum.repos.d/mongodb.repo
 # Copy config mongodb
 COPY ./mongod.conf /etc/mongod.conf
+# Copy script to start mongod
+COPY ./mongod.sh /etc/mongod.sh
+RUN chmod 777 /etc/mongod.sh
 # Install mongodb
 RUN yum install mongodb-org -y
 
-# Copy config supervisor
-COPY ./supervisord.conf /etc/
 
 RUN mkdir -p /data /var/log/mongodb /var/log/supervisor /var/run/sshd /var/run/mongodb/
 
