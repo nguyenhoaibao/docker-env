@@ -277,6 +277,8 @@ path.plugins: /usr/share/elasticsearch/plugins
 #
 #cluster.routing.allocation.node_concurrent_recoveries: 2
 
+cluster.routing.allocation.disk.threshold_enabled: false
+
 # Set to throttle throughput when recovering (eg. 100mb, by default 20mb):
 #
 #indices.recovery.max_bytes_per_sec: 20mb
