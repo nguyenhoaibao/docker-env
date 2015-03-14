@@ -36,7 +36,7 @@ create(){
 	NODEJS=$(docker create \
 		-p 1337:1337 \
 		-p 1338:1338 \
-		-v /srv/www/ \
+		-v $APPS:/srv/www/ \
 		--name docker.nodejs \
 		--link docker.es.server:docker.es.server \
 		--link docker.mongodb.server:docker.mongodb.server \
