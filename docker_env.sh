@@ -5,9 +5,16 @@ DIR="$( cd "$( dirname "$0" )" && pwd )"
 APPS=${APPS:-/c/Users/nhbao/Projects/}
 NS="baonh"
 
-killz(){
-	echo "Killing all docker containers"
-	docker rm -f $(docker ps --no-trunc -aq)
+start(){
+	docker_running=`docker ps -aq | wc -l`
+	if [ "$docker_running" -eq 0 ];then
+		create
+	fi
+
+	docker start docker.es.server
+	docker start docker.mongodb.server
+	docker start docker.nodejs
+	docker exec -ti docker.nodejs /bin/bash
 }
 
 stop(){
@@ -54,28 +61,6 @@ create(){
 	echo "===========  Created NODEJS in container $NODEJS  ==========="
 }
 
-start(){
-	docker_running=`docker ps -aq | wc -l`
-	if [ "$docker_running" -eq 0 ];then
-		create
-	fi
-
-	docker start docker.es.server
-	docker start docker.mongodb.server
-	docker start docker.nodejs
-	docker exec -ti docker.nodejs /bin/bash
-}
-
-enter(){
-	docker exec -ti docker.nodejs /bin/bash
-}
-
-update(){
-	docker pull $NS/centos-elasticsearch
-	docker pull $NS/centos-mongodb
-	docker pull $NS/centos-nodejs
-}
-
 build(){
 	echo "===========  Build elasticsearch image  ==========="
 	docker build -t $NS/centos-elasticsearch elasticsearch/
@@ -88,6 +73,21 @@ build(){
 	echo "===========  Build nodejs image  ==========="
 	docker build -t $NS/centos-nodejs nodejs/
 	echo "Done"
+}
+
+enter(){
+	docker exec -ti docker.nodejs /bin/bash
+}
+
+update(){
+	docker pull $NS/centos-elasticsearch
+	docker pull $NS/centos-mongodb
+	docker pull $NS/centos-nodejs
+}
+
+killz(){
+	echo "Killing all docker containers"
+	docker rm -f $(docker ps --no-trunc -aq)
 }
 
 case "$1" in
