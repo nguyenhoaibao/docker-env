@@ -12,9 +12,9 @@ COPY ./supervisord.conf /etc/
 
 # Install elasticsearch
 RUN wget --no-check-certificate https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.4.4.tar.gz -O elasticsearch.tar.gz
-RUN	tar -xf elasticsearch.tar.gz
-RUN	mv elasticsearch-* elasticsearch
-RUN	mv elasticsearch /usr/share
+RUN tar -xf elasticsearch.tar.gz
+RUN mv elasticsearch-* elasticsearch
+RUN mv elasticsearch /usr/share
 RUN /usr/share/elasticsearch/bin/plugin --install lmenezes/elasticsearch-kopf/master
 COPY ./elasticsearch.yml /usr/share/elasticsearch/config/
 
