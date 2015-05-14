@@ -5,9 +5,8 @@ DIR="$( cd "$( dirname "$0" )" && pwd )"
 APPS=${APPS:-/c/Users/nhbao/Projects/}
 
 killz(){
-	echo "Killing all docker containers:"
-	docker kill $(docker ps --no-trunc -aq)
-	docker rm $(docker ps --no-trunc -aq)
+	echo "Killing all docker containers"
+	docker rm -f $(docker ps --no-trunc -aq)
 }
 
 stop(){
@@ -16,6 +15,12 @@ stop(){
 }
 
 create(){
+	docker_images=`docker images -aq | wc -l`
+	if [ "$docker_images" -eq 0 ];then
+		build
+	fi
+	
+	echo "===========  Create elasticsearch container  ==========="
 	ELASTICSEARCH=$(docker create \
 		-p 9200:9200 \
 		-p 5601:5601 \
@@ -23,16 +28,18 @@ create(){
 		-v /var/log/elasticsearch \
 		--name docker.es.server \
 		baonh/centos-elasticsearch)
-	echo "Created ELASTICSEARCH in container $ELASTICSEARCH"
-
+	echo "===========  Created ELASTICSEARCH in container $ELASTICSEARCH  ==========="
+	
+	echo "===========  Create mongodb container  ==========="
 	MONGO=$(docker create \
 		-p 27017:27017 \
 		-v /data \
 		-v /var/log/mongodb \
 		--name docker.mongodb.server \
 		baonh/centos-mongodb)
-	echo "Created MONGO in container $MONGO"
+	echo "===========  Created MONGO in container $MONGO  ==========="
 	
+	echo "===========  Create nodejs container  ==========="
 	NODEJS=$(docker create \
 		-p 1337:1337 \
 		-p 1338:1338 \
@@ -43,7 +50,7 @@ create(){
 		-ti \
 		baonh/centos-nodejs \
 		/bin/bash)
-	echo "Created NODEJS in container $NODEJS"
+	echo "===========  Created NODEJS in container $NODEJS  ==========="
 }
 
 start(){
@@ -71,16 +78,33 @@ update(){
 	
 }
 
+build(){
+	echo "===========  Build elasticsearch image  ==========="
+	docker build -t centos-elasticsearch elasticsearch/
+	echo "Done"
+	sleep 5
+	echo "===========  Build mongodb image  ==========="
+	docker build -t centos-mongodb mongodb/
+	echo "Done"
+	sleep 5
+	echo "===========  Build nodejs image  ==========="
+	docker build -t centos-nodejs nodejs/
+	echo "Done"
+}
+
 case "$1" in
-	restart)
-		stop
-		start
-		;;
 	start)
 		start
 		;;
 	stop)
 		stop
+		;;
+	restart)
+		stop
+		start
+		;;
+	build)
+		build
 		;;
 	enter)
 		enter
@@ -89,9 +113,12 @@ case "$1" in
 		update
 		;;
 	status)
-		docker ps
+		docker ps -aq --no-trunc
+		;;
+	killz)
+		killz
 		;;
 	*)
-		echo $"Usage: $0 {start|enter|stop|update|restart|status}"
+		echo $"Usage: $0 {start|stop|restart|build|enter|update|status}"
 		RETVAL=1
 esac
