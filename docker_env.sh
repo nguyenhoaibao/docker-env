@@ -3,6 +3,7 @@ set -e
 
 DIR="$( cd "$( dirname "$0" )" && pwd )"
 APPS=${APPS:-/c/Users/nhbao/Projects/}
+NS="baonh"
 
 killz(){
 	echo "Killing all docker containers"
@@ -27,7 +28,7 @@ create(){
 		-v /data \
 		-v /var/log/elasticsearch \
 		--name docker.es.server \
-		baonh/centos-elasticsearch)
+		$NS/centos-elasticsearch)
 	echo "===========  Created ELASTICSEARCH in container $ELASTICSEARCH  ==========="
 	
 	echo "===========  Create mongodb container  ==========="
@@ -36,7 +37,7 @@ create(){
 		-v /data \
 		-v /var/log/mongodb \
 		--name docker.mongodb.server \
-		baonh/centos-mongodb)
+		$NS/centos-mongodb)
 	echo "===========  Created MONGO in container $MONGO  ==========="
 	
 	echo "===========  Create nodejs container  ==========="
@@ -48,7 +49,7 @@ create(){
 		--link docker.es.server:docker.es.server \
 		--link docker.mongodb.server:docker.mongodb.server \
 		-ti \
-		baonh/centos-nodejs \
+		$NS/centos-nodejs \
 		/bin/bash)
 	echo "===========  Created NODEJS in container $NODEJS  ==========="
 }
@@ -70,22 +71,22 @@ enter(){
 }
 
 update(){
-	docker pull baonh/centos-elasticsearch
-	docker pull baonh/centos-mongodb
-	docker pull baonh/centos-nodejs
+	docker pull $NS/centos-elasticsearch
+	docker pull $NS/centos-mongodb
+	docker pull $NS/centos-nodejs
 }
 
 build(){
 	echo "===========  Build elasticsearch image  ==========="
-	docker build -t centos-elasticsearch elasticsearch/
+	docker build -t $NS/centos-elasticsearch elasticsearch/
 	echo "Done"
 	sleep 5
 	echo "===========  Build mongodb image  ==========="
-	docker build -t centos-mongodb mongodb/
+	docker build -t $NS/centos-mongodb mongodb/
 	echo "Done"
 	sleep 5
 	echo "===========  Build nodejs image  ==========="
-	docker build -t centos-nodejs nodejs/
+	docker build -t $NS/centos-nodejs nodejs/
 	echo "Done"
 }
 
