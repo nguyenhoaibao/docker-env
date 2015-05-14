@@ -56,7 +56,6 @@ create(){
 start(){
 	docker_running=`docker ps -aq | wc -l`
 	if [ "$docker_running" -eq 0 ];then
-
 		create
 	fi
 
@@ -71,11 +70,9 @@ enter(){
 }
 
 update(){
-  
 	docker pull baonh/centos-elasticsearch
 	docker pull baonh/centos-mongodb
 	docker pull baonh/centos-nodejs
-	
 }
 
 build(){
