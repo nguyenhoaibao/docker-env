@@ -3,7 +3,13 @@ set -e
 
 DIR="$( cd "$( dirname "$0" )" && pwd )"
 APPS=${APPS:-/c/Users/nhbao/Projects/}
-NS="baonh"
+NAMESPACE="baonh"
+ES_IMAGE_NAME="centos-elasticsearch"
+ES_CONTAINER_NAME="docker.es.server"
+MONGODB_IMAGE_NAME="centos-mongodb"
+MONGODB_CONTAINER_NAME="docker.mongodb.server"
+NODEJS_IMAGE_NAME="centos-nodejs"
+NODEJS_CONTAINER_NAME="docker.nodejs"
 
 start(){
 	docker_running=`docker ps -aq | wc -l`
@@ -11,10 +17,10 @@ start(){
 		create
 	fi
 
-	docker start docker.es.server
-	docker start docker.mongodb.server
-	docker start docker.nodejs
-	docker exec -ti docker.nodejs /bin/bash
+	docker start $ES_CONTAINER_NAME
+	docker start $MONGODB_CONTAINER_NAME
+	docker start $NODEJS_CONTAINER_NAME
+	docker exec -ti $NODEJS_CONTAINER_NAME /bin/bash
 }
 
 stop(){
@@ -34,8 +40,8 @@ create(){
 		-p 5601:5601 \
 		-v /data \
 		-v /var/log/elasticsearch \
-		--name docker.es.server \
-		$NS/centos-elasticsearch)
+		--name $ES_CONTAINER_NAME \
+		$NAMESPACE/$ES_IMAGE_NAME)
 	echo "===========  Created ELASTICSEARCH in container $ELASTICSEARCH  ==========="
 	
 	echo "===========  Create mongodb container  ==========="
@@ -43,8 +49,8 @@ create(){
 		-p 27017:27017 \
 		-v /data \
 		-v /var/log/mongodb \
-		--name docker.mongodb.server \
-		$NS/centos-mongodb)
+		--name $MONGODB_CONTAINER_NAME \
+		$NAMESPACE/$MONGODB_IMAGE_NAME)
 	echo "===========  Created MONGO in container $MONGO  ==========="
 	
 	echo "===========  Create nodejs container  ==========="
@@ -52,37 +58,37 @@ create(){
 		-p 1337:1337 \
 		-p 1338:1338 \
 		-v $APPS:/srv/www/ \
-		--name docker.nodejs \
-		--link docker.es.server:docker.es.server \
-		--link docker.mongodb.server:docker.mongodb.server \
+		--name $NODEJS_CONTAINER_NAME \
+		--link $ES_CONTAINER_NAME:$ES_CONTAINER_NAME \
+		--link $MONGODB_CONTAINER_NAME:$MONGODB_CONTAINER_NAME \
 		-ti \
-		$NS/centos-nodejs \
+		$NAMESPACE/$NODEJS_IMAGE_NAME \
 		/bin/bash)
 	echo "===========  Created NODEJS in container $NODEJS  ==========="
 }
 
 build(){
 	echo "===========  Build elasticsearch image  ==========="
-	docker build -t $NS/centos-elasticsearch elasticsearch/
+	docker build -t $NAMESPACE/$ES_IMAGE_NAME elasticsearch/
 	echo "Done"
 	sleep 5
 	echo "===========  Build mongodb image  ==========="
-	docker build -t $NS/centos-mongodb mongodb/
+	docker build -t $NAMESPACE/$MONGODB_IMAGE_NAME mongodb/
 	echo "Done"
 	sleep 5
 	echo "===========  Build nodejs image  ==========="
-	docker build -t $NS/centos-nodejs nodejs/
+	docker build -t $NAMESPACE/$NODEJS_IMAGE_NAME nodejs/
 	echo "Done"
 }
 
 enter(){
-	docker exec -ti docker.nodejs /bin/bash
+	docker exec -ti $NODEJS_CONTAINER_NAME /bin/bash
 }
 
 update(){
-	docker pull $NS/centos-elasticsearch
-	docker pull $NS/centos-mongodb
-	docker pull $NS/centos-nodejs
+	docker pull $NAMESPACE/$ES_IMAGE_NAME
+	docker pull $NAMESPACE/$MONGODB_IMAGE_NAME
+	docker pull $NAMESPACE/$NODEJS_IMAGE_NAME
 }
 
 killz(){
