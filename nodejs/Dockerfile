@@ -3,7 +3,7 @@ FROM centos:6.6
 MAINTAINER baonh <nhbao.la@gmail.com>
 
 RUN yum update -y
-RUN yum install tar curl openssh-clients telnet -y
+RUN yum install tar curl telnet -y
 
 # Copy nvm script
 COPY ./nvm_install.sh /root/
@@ -18,6 +18,3 @@ RUN chmod a+x /root/nvm_install.sh && \
   npm install -g forever && \
   npm install -g pm2 && \
   mkdir -p /srv/www
-
-# Define default command
-CMD ["bash"]
