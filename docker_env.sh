@@ -10,6 +10,10 @@ MONGODB_IMAGE_NAME="centos-mongodb"
 MONGODB_CONTAINER_NAME="docker.mongodb.server"
 NODEJS_IMAGE_NAME="centos-nodejs"
 NODEJS_CONTAINER_NAME="docker.nodejs"
+NGINX_IMAGE_NAME="centos-nginx"
+NGINX_CONTAINER_NAME="docker.nginx.server"
+PHP-FPM_IMAGE_NAME="centos-php-fpm"
+PHP-FPM_CONTAINER_NAME="docker.php-fpm.server"
 
 start(){
 	docker_running=`docker ps -aq | wc -l`
@@ -78,6 +82,12 @@ build(){
 	sleep 5
 	echo "===========  Build nodejs image  ==========="
 	docker build -t $NAMESPACE/$NODEJS_IMAGE_NAME nodejs/
+	echo "Done"
+	echo "===========  Build nginx image  ==========="
+	docker build -t $NAMESPACE/$NGINX_IMAGE_NAME nginx/
+	echo "Done"
+	echo "===========  Build php-fpm image  ==========="
+	docker build -t $NAMESPACE/$PHP-FPM_IMAGE_NAME php-fpm/
 	echo "Done"
 }
 
