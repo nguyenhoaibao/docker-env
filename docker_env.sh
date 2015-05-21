@@ -41,6 +41,7 @@ create(){
 	echo "===========  Create php-fpm container  ==========="
 	PHPFPM=$(docker create \
 		-p 9000:9000 \
+		-v $APPS:/srv/www/ \
 		--name $PHPFPM_CONTAINER_NAME \
 		$NAMESPACE/$PHPFPM_IMAGE_NAME)
 	echo "===========  Created PHP-FPM in container $PHPFPM  ==========="
