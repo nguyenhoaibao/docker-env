@@ -41,6 +41,7 @@ create(){
 	echo "===========  Create nginx container  ==========="
 	NGINX=$(docker create \
 		-p 80:80 \
+		--link $PHPFPM_CONTAINER_NAME:$PHPFPM_CONTAINER_NAME \
 		--name $NGINX_CONTAINER_NAME \
 		$NAMESPACE/$NGINX_IMAGE_NAME)
 	echo "===========  Created NGINX in container $NGINX  ==========="
