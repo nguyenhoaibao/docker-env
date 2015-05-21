@@ -6,15 +6,13 @@ RUN yum update -y
 RUN yum install tar curl telnet -y
 
 # Copy nvm script
-COPY ./nvm_install.sh /root/
-
-RUN chmod a+x /root/nvm_install.sh && \
-  /bin/bash /root/nvm_install.sh && \
-  source /root/.bashrc && \
-  nvm install stable && \
-  nvm alias default stable && \
-  npm install -g nodemon && \
-  npm install -g jshint && \
-  npm install -g forever && \
-  npm install -g pm2 && \
-  mkdir -p /srv/www
+RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.25.2/install.sh | bash && \
+	source /root/.bashrc && \
+	nvm install stable && \
+	nvm alias default stable && \
+	nvm install iojs && \
+	npm install -g nodemon && \
+	npm install -g jshint && \
+	npm install -g forever && \
+	npm install -g pm2 && \
+	mkdir -p /srv/www

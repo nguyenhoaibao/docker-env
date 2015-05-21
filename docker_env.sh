@@ -37,6 +37,20 @@ create(){
 	if [ "$docker_images" -eq 0 ];then
 		build
 	fi
+
+	echo "===========  Create nginx container  ==========="
+	NGINX=$(docker create \
+		-p 80:80 \
+		--name $NGINX_CONTAINER_NAME \
+		$NAMESPACE/$NGINX_IMAGE_NAME)
+	echo "===========  Created NGINX in container $NGINX  ==========="
+
+	echo "===========  Create php-fpm container  ==========="
+	PHPFPM=$(docker create \
+		-p 9000:9000 \
+		--name $PHPFPM_CONTAINER_NAME \
+		$NAMESPACE/$PHPFPM_IMAGE_NAME)
+	echo "===========  Created PHP-FPM in container $PHPFPM  ==========="
 	
 	echo "===========  Create elasticsearch container  ==========="
 	ELASTICSEARCH=$(docker create \
